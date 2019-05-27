@@ -56,20 +56,28 @@ class TimeInput extends React.Component<ITimeInputProps, ITimeInputState> {
     }
 
     public handleChange = (event: any) => {
-        this.setState({ value: event.target.value });
-    }; 3:23
+        const inputStr = event.target.value.replace(":", "").trim();
+        this.setState({ value: inputStr });
+    }; 
 
     public handleBlur = (event: any) => {
         const inputStr = event.target.value.replace(":", "").trim();
         let hours = parseInt(inputStr.slice(0, -2));
         let str = inputStr;
 
-        const inputStrWColon = event.target.value;
-        let firstIndex = parseInt(inputStrWColon.slice(0, 1));
-        let secondIndex = parseInt(inputStrWColon.slice(1, 2));
-        let thirdIndex = parseInt(inputStrWColon.slice(3, 4));
-        let fourthIndex = parseInt(inputStrWColon.slice(4, 5));
+        const inputStrWColon = event.target.value; // Remove colon first then get the indices
+        // let firstIndex = parseInt(inputStrWColon.slice(0, 1));
+        // let secondIndex = parseInt(inputStrWColon.slice(1, 2));
+        // let thirdIndex = parseInt(inputStrWColon.slice(3, 4));
+        // let fourthIndex = parseInt(inputStrWColon.slice(4, 5));
+        
+        let firstIndex = parseInt(inputStr.slice(0,1));
+        let secondIndex = parseInt(inputStr.slice(1,2));
+        let thirdIndex = parseInt(inputStr.slice(2,3));
+        let fourthIndex = parseInt(inputStr.slice(3,4));
+        console.log(firstIndex, secondIndex, thirdIndex, fourthIndex)
 
+        
         let hours1 = parseInt(inputStr.slice(0, 1));
         let hours2 = parseInt(inputStr.slice(1, 2));
         let minutes = parseInt(inputStr.slice(2, 5));
@@ -103,6 +111,7 @@ class TimeInput extends React.Component<ITimeInputProps, ITimeInputState> {
                 alert("Invalid input: whitepace error");
                 this.setState({ value: "" });
             }
+            
         }
     }; 
 
@@ -112,8 +121,9 @@ class TimeInput extends React.Component<ITimeInputProps, ITimeInputState> {
 
         return (
             <div className={classes.container}>
-                <FormControl className={classes.formControl} variant="outlined">
+                <FormControl className={classes.formControl} variant="outlined" onChange={this.handleChange}>
                     <MaskedInput
+                        data-testid="TimeInputID"
                         onChange={this.handleChange}
                         mask={regex}
                         // mask={this.state.timeRegex}
@@ -121,7 +131,8 @@ class TimeInput extends React.Component<ITimeInputProps, ITimeInputState> {
                         placeholderChar={'\u2000'} // Removes underlines
                         // showMask // Commenting this allowed the cursor to be in the start of the field
                         value={this.state.value}
-                    />
+                    >
+                    </MaskedInput>
                 </FormControl>
             </div>
         );
