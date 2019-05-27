@@ -49,9 +49,7 @@ test("there's a space in the user's input", () => {
     const { getByTestId } = render(<App  />)
     // fireEvent.blur(getByTestId('TimeInputID'), {target: {value: '1 11'}}) //the change method does call the handleChange in the TimeInput component
     // fireEvent.blur(getByTestId('TimeInputID'), {target: {value: '1  1'}}) //the change method does call the handleChange in the TimeInput component
-    let temp = "11 1";
-    console.log("printing", parseInt(temp.slice(2, 3)));
-    fireEvent.blur(getByTestId('TimeInputID'), {target: {value: temp}}) //the change method does call the handleChange in the TimeInput component
+    fireEvent.blur(getByTestId('TimeInputID'), {target: {value: "11 1"}}) //the change method does call the handleChange in the TimeInput component
     expect(getByTestId('TimeInputID').getAttribute('value')).toEqual("")
 })
 
